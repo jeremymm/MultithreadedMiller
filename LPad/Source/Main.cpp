@@ -1,8 +1,8 @@
 
 
-#include "HabuThreads.hpp"
+#include "MultithreadedMiller.hpp"
 
-using namespace HabuTech;
+using namespace MST;
 
 class ThreadedClass : public Thread
 {

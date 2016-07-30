@@ -2,27 +2,17 @@
 // Multiplexer Implementation
 //
 // Created: Oct 6, 2008
-// By: Jeremy M Miller (info@bluehabu.com)
+// By: Jeremy Michael Miller
 //
-// Copyright (c) 2008 Jeremy M Miller.  
-// This source code module, and all information, data, and algorithms
-// associated with it, are part of BlueHabu Technologies(tm).
-//
-// Usage of HabuThreads is subject to the appropriate license agreement.
-// A proprietary/commercial licenses are available. (info@bluehabu.com)
-//                 
-// HabuThreads is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// HabuThreads is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with HabuThreads.  If not, see <http://www.gnu.org/licenses/>.                 
+// Copyright (c) 2008-2016 Jeremy Michael Miller. 
+// Author: = "Jeremy Michael Miller"
+// Copyright: = "Copyright 2006-2016, Multithreaded Miller,  All rights reserved."
+// Credits = ["Jeremy Michael Miller"]
+// License: "Fair use v0.9"
+// Version: "0.0.1"
+// Maintainer: "Jeremy Michael Miller"
+// Email: "maybe_later@mst.dnsalias.net"
+// Status: "Alpha"
 //***************************************************************************//
 
 //***************************************************************************//
@@ -44,13 +34,13 @@
 //***************************************************************************//
 
 //***************************************************************************//
-namespace HabuTech
+namespace MST
 {
   //-------------------------------------------------------------------------//
   Multiplexer::Multiplexer()
   {
     this->mpMutex = new Mutex();
-    mpArrayOfHandles = NULL;
+    mpArrayOfHandles = nullptr;
     mulCurrentArraySize = 0UL;
   }
   //-------------------------------------------------------------------------//
@@ -88,9 +78,9 @@ namespace HabuTech
       }
 
       for(unsigned long i = 0; i < this->mvPersistentHandles.size(); i++)
-         ((long*)(this->mpArrayOfHandles))[i] = (long)(this->mvPersistentHandles[i]);
+         static_cast<long*>(this->mpArrayOfHandles)[i] = reinterpret_cast<long>(this->mvPersistentHandles[i]);
 
-      this->mulCurrentArraySize = (unsigned long)this->mvPersistentHandles.size();
+      this->mulCurrentArraySize = static_cast<unsigned long>(this->mvPersistentHandles.size());
     }
     else
       bReturnValue = false;
@@ -102,20 +92,20 @@ namespace HabuTech
   //-------------------------------------------------------------------------//
 
   //-------------------------------------------------------------------------//
-  bool Multiplexer::WaitForTrigger(unsigned long ulWait)
+  bool Multiplexer::WaitForTrigger(unsigned long ulWait) const
   {
     bool bReturnValue = true;
 
     if(this->mpMutex->Lock())
     {
-      unsigned long ulResult = WaitForMultipleObjects(this->mulCurrentArraySize, (HANDLE*)this->mpArrayOfHandles, false, ulWait);
+      unsigned long ulResult = WaitForMultipleObjects(this->mulCurrentArraySize, static_cast<HANDLE*>(this->mpArrayOfHandles), false, ulWait);
 
       // Throw an assertion if the wait failed.
       assert(ulResult != WAIT_FAILED);
       if((ulResult == WAIT_TIMEOUT) || (ulResult == WAIT_FAILED) || (ulResult >= WAIT_ABANDONED_0))
         bReturnValue = false;
-      else if(((ulResult - WAIT_OBJECT_0) > 0) && ((ulResult - WAIT_OBJECT_0) <= (int)this->mulCurrentArraySize))
-        ResetEvent((HANDLE)((long*)(this->mpArrayOfHandles))[ulResult - WAIT_OBJECT_0]);
+      else if(((ulResult - WAIT_OBJECT_0) > 0) && ((ulResult - WAIT_OBJECT_0) <= static_cast<int>(this->mulCurrentArraySize)))
+        ResetEvent(reinterpret_cast<HANDLE>(static_cast<long*>(this->mpArrayOfHandles)[ulResult - WAIT_OBJECT_0]));
 
       this->mpMutex->Unlock();
     }
@@ -123,5 +113,5 @@ namespace HabuTech
     return bReturnValue;
   }
   //-------------------------------------------------------------------------//
-} // End of namespace HabuTech
+} // End of namespace MST
 //***************************************************************************//

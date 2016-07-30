@@ -5,3 +5,4 @@
 *.ilk
 *.vc.db
 *.suo
+*.vcxproj.user

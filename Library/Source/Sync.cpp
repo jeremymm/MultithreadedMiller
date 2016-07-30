@@ -2,27 +2,17 @@
 // Sync Class Implementation
 //
 // Created: Oct 6, 2008
-// By: Jeremy M Miller (info@bluehabu.com)
+// By: Jeremy Michael Miller
 //
-// Copyright (c) 2008 Jeremy M Miller.  
-// This source code module, and all information, data, and algorithms
-// associated with it, are part of BlueHabu Technologies(tm).
-//
-// Usage of HabuThreads is subject to the appropriate license agreement.
-// A proprietary/commercial licenses are available. (info@bluehabu.com)
-//                 
-// HabuThreads is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// HabuThreads is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with HabuThreads.  If not, see <http://www.gnu.org/licenses/>.
+// Copyright (c) 2008-2016 Jeremy Michael Miller. 
+// Author: = "Jeremy Michael Miller"
+// Copyright: = "Copyright 2006-2016, Multithreaded Miller,  All rights reserved."
+// Credits = ["Jeremy Michael Miller"]
+// License: "Fair use v0.9"
+// Version: "0.0.1"
+// Maintainer: "Jeremy Michael Miller"
+// Email: "maybe_later@mst.dnsalias.net"
+// Status: "Alpha"
 //***************************************************************************//
 
 //***************************************************************************//
@@ -31,12 +21,12 @@
 //***************************************************************************//
 
 //***************************************************************************//
-namespace HabuTech
+namespace MST
 {
   //-------------------------------------------------------------------------//
   Sync::Sync()
   {
-    mvpSyncObject = 0;
+    mvpSyncObject = nullptr;
   }
   //-------------------------------------------------------------------------//
 
@@ -52,5 +42,5 @@ namespace HabuTech
     return this->mvpSyncObject; 
   }
   //-------------------------------------------------------------------------//
-} // End of namespace HabuTech
+} // End of namespace MST
 //***************************************************************************//
